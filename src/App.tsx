@@ -1,50 +1,55 @@
 import { useState } from "react";
 
-interface Joke {
-  id: number;
-  type: string;
-  setup: string;
-  punchline: string;
+interface Dog {
+  message: string;
+  status: string
 }
 
 function App() {
-  const [joke, setJoke] = useState<Joke>();
+  const [image, setImage] = useState<Dog[]>([]);
+  // const [gallery,setGallery] = useState<string[]>([])
 
-  const handleGetJoke = async () => {
-    const response = await fetch(
-      "https://official-joke-api.appspot.com/jokes/general/random"
-    );
-    const jsonBody: Joke[] = await response.json();
-    setJoke(jsonBody[0]);
-  };
-
-  // const handleGetJoke = () => {
-  //   fetch("https://official-joke-api.appspot.com/jokes/general/random")
-  //     .then((response) => response.json())
-  //     .then((jsonBody: Joke[]) => setJoke(jsonBody[0]));
+  // const handleGetJoke = async () => {
+  //   const response = await fetch(
+  //     "https://official-joke-api.appspot.com/jokes/general/random"
+  //   );
+  //   const jsonBody: Joke[] = await response.json();
+  //   setJoke(jsonBody[0]);
   // };
 
-  if (joke) {
+  const handleGetImage = () => {
+    fetch("https://dog.ceo/api/breeds/image/random")
+      .then((response) => response.json())
+      .then((jsonBody: Dog) => setImage((gallery) => [...gallery,jsonBody]))
+  };
+
+  // take message from each image and add to array
+  // const handleGetGallery = () => {
+  //   setGallery((prevStoredGal: string[]) => [...prevStoredGal,image?.message])
+  // }
+  console.log(image)
+  if (image) {
     return (
       <div>
-        <h1>Joke app</h1>
-        <details>
-          <summary>{joke.setup}</summary>
-          <p>{joke.punchline}</p>
-        </details>
+        <h1>Dog app</h1>
+        {image.map((galleryArr,index) => (
+          <img key= {index}
+              src = {galleryArr.message}
+              />
+        ))}        
         <hr />
-        <button onClick={handleGetJoke}>Get another joke</button>
+        <button onClick={handleGetImage}>Get another image</button>
       </div>
     );
   } else {
     return (
       <div>
-        <h1>Joke app</h1>
+        <h1>Dog app</h1>
         <p>
           Click the button to trigger a <code>fetch</code> that gets a random
-          joke from an API!
+          dog from an API!
         </p>
-        <button onClick={handleGetJoke}>Get joke</button>
+        <button onClick={handleGetImage}>Show a Dog</button>
       </div>
     );
   }
