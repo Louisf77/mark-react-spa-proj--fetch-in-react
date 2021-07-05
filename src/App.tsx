@@ -27,7 +27,6 @@ function App() {
   // const handleGetGallery = () => {
   //   setGallery((prevStoredGal: string[]) => [...prevStoredGal,image?.message])
   // }
-  console.log(image)
   if (image) {
     return (
       <div>
@@ -35,7 +34,7 @@ function App() {
         {image.map((galleryArr,index) => (
           <img key= {index}
               src = {galleryArr.message}
-              />
+              width = "100px"/>
         ))}        
         <hr />
         <button onClick={handleGetImage}>Get another image</button>
